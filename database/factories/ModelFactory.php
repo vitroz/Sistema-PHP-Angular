@@ -52,6 +52,29 @@ $factory->define(CodeProject\Entities\ProjectNote::class, function (Faker\Genera
 });
 
 
+$factory->define(CodeProject\Entities\ProjectTask::class, function (Faker\Generator $faker) {
+    return [
+        'project_id' => $faker->numberBetween(26,31),
+        'name' => $faker->name,
+        'start_date' => $faker->date,       
+        'due_date' => $faker->date, 
+        'status' => $faker->word, 
+    ];
+});
+
+$factory->define(CodeProject\Entities\ProjectMember::class, function (Faker\Generator $faker) {
+    return [
+        'project_id' => $faker->numberBetween(26,31),
+        'user_id' => $faker->numberBetween(1,10),
+    ];
+});
+
+
+
+
+
+
+
 
 
 

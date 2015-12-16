@@ -27,6 +27,8 @@ Route::get('project/{id}/note/{noteId}', 'ProjectNoteController@show');
 Route::put('project/{id}/note/{noteId}', 'ProjectNoteController@update');
 Route::delete('project/{id}/note/{noteId}', 'ProjectNoteController@destroy');
 
+Route::get('project/{id}/members', 'ProjectMemberController@index');
+
 Route::get('project', 'ProjectController@index');
 Route::get('project/{id}', 'ProjectController@show');
 Route::post('project', 'ProjectController@store');

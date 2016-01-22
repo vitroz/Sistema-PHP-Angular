@@ -60,7 +60,8 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-       return $this->repository->find($id)->update($request->all());
+       $this->repository->find($id)->update($request->all()); 
+       return response()->json(['success' => 'Cliente Atualizado com Sucesso']);
     }
 
     /**
@@ -71,6 +72,7 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        return $this->repository->find($id)->delete();
+        $this->repository->find($id)->delete();
+        return response()->json(['success' => 'Registro apagado com Sucesso']);
     }
 }

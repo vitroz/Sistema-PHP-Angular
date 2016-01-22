@@ -68,7 +68,9 @@ class ProjectController extends Controller
        if($this->checkProjectOwner($id)==false){
             return ['error' => 'Access Forbidden'];
         } 
-       return $this->repository->find($id)->update($request->all());
+
+       $this->repository->find($id)->update($request->all()); 
+       return response()->json(['success' => 'Projeto Atualizado com Sucesso']);
     }
 
     /**
@@ -82,8 +84,8 @@ class ProjectController extends Controller
         if($this->checkProjectOwner($id)==false){
             return ['error' => 'Access Forbidden'];
         }
-
-        return $this->repository->delete($noteId);
+        $this->repository->delete($noteId);
+        return response()->json(['success' => 'Registro apagado com Sucesso']);
     }
 
     private function checkProjectOwner($projectId){

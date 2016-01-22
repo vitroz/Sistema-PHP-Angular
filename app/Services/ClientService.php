@@ -26,7 +26,9 @@ class ClientService
 		try
 		{
 			$this->validator->with($data)->passesOrFail();
-			return $this->repository->create($data);
+			$this->repository->create($data);
+
+			return response()->json(['success' => 'Cliente Cadastrado com Sucesso']);
 
 		}
 		catch(ValidatorException $e)
@@ -45,7 +47,9 @@ class ClientService
 		try
 		{
 			$this->validator->with($data)->passesOrFail();
-			return $this->repository->update($data, $id);
+			$this->repository->update($data, $id);
+
+			return response()->json(['success' => 'Cliente Atualizado com Sucesso']);
 
 		}
 		catch(ValidatorException $e)

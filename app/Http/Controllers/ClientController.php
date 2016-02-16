@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use CodeProject\Repositories\ClientRepository;
 use CodeProject\Services\ClientService;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException as ModelNotFoundException;
+use Illuminate\Database\Eloquent\QueryException as QueryException;
 
 class ClientController extends Controller
 {
@@ -48,7 +50,11 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        return $this->repository->find($id);
+        try{
+            return $this->repository->find($id);            
+        }catch (ModelNotFoundException $e){
+            return ['error'=>true, 'msg' => 'Cliente nao encontrado.'];
+        }
     }
 
     /**
@@ -60,8 +66,12 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-       $this->repository->find($id)->update($request->all()); 
-       return response()->json(['success' => 'Cliente Atualizado com Sucesso']);
+       try{
+           $this->repository->find($id)->update($request->all()); 
+           return response()->json(['success' => 'Cliente Atualizado com Sucesso']);        
+       }catch (ModelNotFoundException $e){
+            return ['error'=>true, 'msg' => 'Cliente nao encontrado.'];
+        }
     }
 
     /**
@@ -72,7 +82,13 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        $this->repository->find($id)->delete();
-        return response()->json(['success' => 'Registro apagado com Sucesso']);
+        try{
+            $this->repository->find($id)->delete();
+            return response()->json(['success' => 'Registro apagado com Sucesso']);            
+        }catch (ModelNotFoundException $e){
+            return ['error'=>true, 'msg' => 'Cliente nao encontrado.'];
+        }catch (QueryException $e) {
+            return ['error'=>true, 'Cliente não pode ser apagado pois existe um ou mais projetos vinculados a ele.'];
+        } 
     }
 }

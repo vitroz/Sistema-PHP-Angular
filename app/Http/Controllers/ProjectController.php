@@ -8,6 +8,9 @@ use CodeProject\Services\ProjectService;
 use CodeProject\Repositories\ProjectRepositoryEloquent;
 use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException as ModelNotFoundException;
+use Illuminate\Database\Eloquent\QueryException as QueryException;
+
 class ProjectController extends Controller
 {
 
@@ -50,10 +53,15 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        if($this->checkProjectPermissions($id)==false){
-            return ['error' => 'Access Forbidden'];
+        try {
+
+            if($this->checkProjectPermissions($id)==false){
+                return ['error' => 'Access Forbidden'];
+            }
+            return $this->repository->find($id);            
+        }catch (ModelNotFoundException $e){
+            return ['error'=>true, 'msg' => 'Projeto nao encontrado.'];
         }
-        return $this->repository->find($id);
     }
 
     /**
@@ -65,12 +73,18 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id, $noteId)
     {
-       if($this->checkProjectOwner($id)==false){
-            return ['error' => 'Access Forbidden'];
-        } 
 
-       $this->repository->find($id)->update($request->all()); 
-       return response()->json(['success' => 'Projeto Atualizado com Sucesso']);
+     try{
+           if($this->checkProjectOwner($id)==false){
+                return ['error' => 'Access Forbidden'];
+            } 
+
+           $this->repository->find($id)->update($request->all()); 
+           return response()->json(['success' => 'Projeto Atualizado com Sucesso']);        
+     }catch (ModelNotFoundException $e){
+            return ['error'=>true, 'msg' => 'Projeto nao encontrado.'];
+        }
+
     }
 
     /**
@@ -81,11 +95,17 @@ class ProjectController extends Controller
      */
     public function destroy($id, $noteId)
     {
-        if($this->checkProjectOwner($id)==false){
-            return ['error' => 'Access Forbidden'];
-        }
-        $this->repository->delete($noteId);
-        return response()->json(['success' => 'Registro apagado com Sucesso']);
+        try{
+            if($this->checkProjectOwner($id)==false){
+                return ['error' => 'Access Forbidden'];
+            }
+            $this->repository->delete($noteId);
+            return response()->json(['success' => 'Registro apagado com Sucesso']);            
+        }catch (ModelNotFoundException $e){
+            return ['error'=>true, 'msg' => 'Projeto nao encontrado.'];
+        }catch (QueryException $e) {
+            return ['error'=>true, 'Projeto não pode ser apagado pois existe um ou mais clientes vinculados a ele.'];
+        } 
     }
 
     private function checkProjectOwner($projectId){

@@ -16,11 +16,11 @@ class Verifier
           return Auth::user()->id;
       }
 
-          if(Auth::validate(['email' => $username, 'password' => $password])){
-              $user = \CodeProject\Entities\User::where('email', $username)->first();
+        if(Auth::validate(['email' => $username, 'password' => $password])){
+            $user = \CodeProject\Entities\User::where('email', $username)->first();
 
-              return $user->id;
-          }
+            return $user->id;
+        }
 
         return false;
   }

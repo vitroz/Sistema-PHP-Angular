@@ -3,8 +3,11 @@
 namespace CodeProject\Http\Controllers;
 
 use Illuminate\Http\Request;
-use CodeProject\Repositories\ProjectTaskRepository;
 use CodeProject\Services\ProjectTaskService;
+use CodeProject\Repositories\ProjectTaskRepository;
+
+use Illuminate\Database\Eloquent\ModelNotFoundException as ModelNotFoundException;
+use Illuminate\Database\Eloquent\QueryException as QueryException;
 
 
 class ProjectTaskController extends Controller
@@ -25,7 +28,11 @@ class ProjectTaskController extends Controller
      */
     public function index($id)
     {
-        return $this->repository->findWhere(['project_id' => $id]);
+        try{
+            return $this->repository->findWhere(['project_id' => $id]);
+        }catch (ModelNotFoundException $e){
+            return ['error'=>true, 'msg' => 'Projeto nao encontrado.'];
+        }
     }
 
    
@@ -48,7 +55,11 @@ class ProjectTaskController extends Controller
      */
     public function show($id, $taskId)
     {
-        return $this->repository->findWhere(['project_id' => $id, 'id' => $taskId]);
+        try{
+            return $this->repository->findWhere(['project_id' => $id, 'id' => $taskId]);            
+        }catch (ModelNotFoundException $e){
+            return ['error'=>true, 'msg' => 'Tarefa nao encontrada.'];
+        }
     }
 
     /**
@@ -60,7 +71,12 @@ class ProjectTaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-       return $this->repository->find($id)->update($request->all());
+       try{
+            return $this->repository->find($id)->update($request->all());
+            return response()->json(['success' => 'Tarefa Atualizada com Sucesso']);        
+       }catch (ModelNotFoundException $e){
+            return ['error'=>true, 'msg' => 'Tarefa nao encontrada.'];
+        }
     }
 
     /**
@@ -71,6 +87,12 @@ class ProjectTaskController extends Controller
      */
     public function destroy($id)
     {
-        return $this->repository->find($id)->delete();
+        $this->repository->find($id)->delete();
+        return response()->json(['success' => 'Registro apagado com Sucesso']);
+        catch (ModelNotFoundException $e){
+            return ['error'=>true, 'msg' => 'Tarefa nao encontrada.'];
+        }catch (QueryException $e) {
+            return ['error'=>true, 'Tarefa não pode ser apagado pois existe um ou mais projetos vinculados a ela.'];
+        }            
     }
 }

@@ -46,7 +46,6 @@ class ProjectTaskService
 		{
 			$this->validator->with($data)->passesOrFail();
 			return $this->repository->update($data, $id);
-
 		}
 		catch(ValidatorException $e)
 		{

@@ -7,7 +7,7 @@ use CodeProject\Repositories\ProjectTaskRepository;
 use CodeProject\Validators\ProjectTaskValidator;
 use Prettus\Validator\Exceptions\ValidatorException;
 
-class ProjectService
+class ProjectTaskService
 {
 
 	protected $repository;

@@ -8,6 +8,9 @@ use CodeProject\Services\ProjectService;
 use CodeProject\Repositories\ProjectRepositoryEloquent;
 use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException as ModelNotFoundException;
+use Illuminate\Database\Eloquent\QueryException as QueryException;
+
 
 class ProjectFileController extends Controller
 {
@@ -50,6 +53,7 @@ class ProjectFileController extends Controller
         $data['description'] = $request->description;
 
         $this->service->createFile($data);
+        return response()->json(['success' => 'Arquivo enviado com sucesso.']);
     }
 
     /**
@@ -60,10 +64,14 @@ class ProjectFileController extends Controller
      */
     public function show($id)
     {
-        if($this->checkProjectPermissions($id)==false){
+        try{
+            if($this->checkProjectPermissions($id)==false){
             return ['error' => 'Access Forbidden'];
+            }        
+                return $this->repository->find($id);
+        }catch (ModelNotFoundException $e){
+            return ['error'=>true, 'msg' => 'Projeto nao encontrado.'];
         }
-        return $this->repository->find($id);
     }
 
     /**
@@ -75,10 +83,14 @@ class ProjectFileController extends Controller
      */
     public function update(Request $request, $id, $noteId)
     {
-       if($this->checkProjectOwner($id)==false){
-            return ['error' => 'Access Forbidden'];
-        } 
-       return $this->repository->find($id)->update($request->all());
+       try{
+           if($this->checkProjectOwner($id)==false){
+                return ['error' => 'Access Forbidden'];
+            } 
+           return $this->repository->find($id)->update($request->all());
+       }catch (ModelNotFoundException $e){
+            return ['error'=>true, 'msg' => 'Projeto nao encontrado.'];
+        }
     }
 
     /**
@@ -89,11 +101,17 @@ class ProjectFileController extends Controller
      */
     public function destroy($id, $noteId)
     {
-        if($this->checkProjectOwner($id)==false){
-            return ['error' => 'Access Forbidden'];
-        }
+        try{
+            if($this->checkProjectOwner($id)==false){
+                return ['error' => 'Access Forbidden'];
+            }
 
-        return $this->repository->delete($noteId);
+            return $this->repository->delete($noteId);
+        }catch (ModelNotFoundException $e){
+            return ['error'=>true, 'msg' => 'Arquivo nao encontrado.'];
+        }catch (QueryException $e) {
+            return ['error'=>true, 'Arquivo não pode ser apagado pois existe um ou mais projetos vinculados a ele.'];
+        } 
     }
 
     private function checkProjectOwner($projectId){

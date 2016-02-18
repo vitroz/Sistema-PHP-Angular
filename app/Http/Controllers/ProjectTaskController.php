@@ -87,9 +87,10 @@ class ProjectTaskController extends Controller
      */
     public function destroy($id)
     {
+        try{
         $this->repository->find($id)->delete();
         return response()->json(['success' => 'Registro apagado com Sucesso']);
-        catch (ModelNotFoundException $e){
+        }catch (ModelNotFoundException $e){
             return ['error'=>true, 'msg' => 'Tarefa nao encontrada.'];
         }catch (QueryException $e) {
             return ['error'=>true, 'Tarefa não pode ser apagado pois existe um ou mais projetos vinculados a ela.'];

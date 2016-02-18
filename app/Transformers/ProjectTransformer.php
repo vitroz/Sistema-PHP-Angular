@@ -5,11 +5,14 @@ namespace CodeProject\Transformers;
 use CodeProject\Entities\Project;
 use League\Fractal\TransformerAbstract;
 use CodeProject\Transformers\ProjectMemberTransformer;
+use CodeProject\Transformers\ProjectTaskTransformer;
+use CodeProject\Transformers\ProjectNoteTransformer;
+
 
 class ProjectTransformer extends TransformerAbstract
 {
 
-	protected $defaultIncludes = ['members'];
+	protected $defaultIncludes = ['members','tasks','notes'];
 
 	public function transform(Project $project)
 	{
@@ -28,6 +31,16 @@ class ProjectTransformer extends TransformerAbstract
 	public function includeMembers(Project $project)
 	{
 		return $this->collection($project->members, new ProjectMemberTransformer());
+	}
+
+	public function includeTasks(Project $project)
+	{
+		return $this->collection($project->tasks, new ProjectTaskTransformer());
+	}
+
+	public function includeNotes(Project $project)
+	{
+		return $this->collection($project->notes, new ProjectNoteTransformer());
 	}
 
 }

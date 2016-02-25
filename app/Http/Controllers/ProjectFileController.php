@@ -44,6 +44,16 @@ class ProjectFileController extends Controller
     {
 
         $file = $request->file('file');
+        if($file == null){
+            return ['error'=>true, 'msg' => 'Arquivo não informado.'];
+        }else if($request->name == null){
+            return ['error'=>true, 'msg' => 'Nome do arquivo não informado.'];
+        }else if($request->project_id == null){
+            return ['error'=>true, 'msg' => 'Projeto não informado.'];
+        }else if($request->description == null){
+            return ['error'=>true, 'msg' => 'Descricao não informada.'];
+        }
+
         $extension = $file->getClientOriginalExtension();
 
         $data['file'] = $file;

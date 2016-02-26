@@ -5,11 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Laravel</title>
-	@if(Config::get('app.debug'))
 
-		@else
-
-		@else if
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 
 	<!-- Fonts -->
@@ -72,10 +68,9 @@
 		<script src="{{asset('build/js/vendor/angular-animate.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/angular-messages.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/ui-bootstrap.min.js')}}"></script>
-		<script src="{{asset('build/js/vendor/navbar.min.js')}}"></script>
-	
+		<script src="{{asset('build/js/vendor/navbar.min.js')}}"></script>	
 	@else
 		<script src="{{elixir('js/all.js')}}"></script>
-	@else if
+	@endif
 </body>
 </html>

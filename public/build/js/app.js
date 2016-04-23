@@ -16,7 +16,7 @@ app.config(['$routeProvider','OAuthProvider',function($routeProvider,OAuthProvid
 			baseUrl: 'http://curso.dev',
 			clientId: 'app',
 			clientSecret: 'secret',
-			grantPath: 'oauth/access_token'
+			grantPath: '#/oauth/access_token'
 		});
 }]);
 

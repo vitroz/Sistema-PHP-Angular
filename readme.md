@@ -40,6 +40,15 @@ Apos o git clone do projeto,
 
 - Gerar key (comando php artisan key:generate)
 
+- Rodar as migrations de geração de tabelas no Banco de Dados (php artisan migrate)
+- Caso de Access Denied, colocar as seguintes configurações no .env:
+	DB_HOST=localhost
+	DB_DATABASE=NomeDoBanco(Criar um Banco de Dados)
+	DB_USERNAME=root
+	DB_PASSWORD=''senhaDoBancoSemAspas''
+
+- Popular o Banco de Dados (Com Usuarios para login, por ex) - php artisan db:seed
+
 - Criar Pasta bower_componentes em /resources
 
 - sudo npm install gulp

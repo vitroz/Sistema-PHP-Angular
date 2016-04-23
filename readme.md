@@ -55,3 +55,6 @@ Configuração de Ambiente e Correcao de BUGS
 - FIX ERROR ENOPCS (gulp watch-dev)
 
 - Para Linux, executar o comando echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+
+- Para instalar o angular-oauth2 : bower install angular-oauth2 --save (Se necessario)
+- Quanto o angular-oauth2 ja esta instalado, sao criadas 3 pastas em bower_components(angular-oauth2, angular-messages, angular-resource)

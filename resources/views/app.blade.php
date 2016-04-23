@@ -33,7 +33,7 @@
 
 			<div class="collapse navbar-collapse" id="navbar">
 				<ul class="nav navbar-nav">
-					<li><a href="{{ url('/') }}">Welcomesssss</a></li>
+					<li><a href="{{ url('/') }}">Welcomes</a></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
@@ -72,7 +72,10 @@
 		<script src="{{asset('build/js/vendor/angular-animate.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/angular-messages.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/ui-bootstrap.min.js')}}"></script>
-		<script src="{{asset('build/js/vendor/navbar.min.js')}}"></script>	
+		<script src="{{asset('build/js/vendor/navbar.min.js')}}"></script>
+		<script src="{{asset('build/js/vendor/angular-cookies.min.js')}}"></script>
+		<script src="{{asset('build/js/vendor/query-string.js')}}"></script>	
+		<script src="{{asset('build/js/vendor/angular-oauth2.min.js')}}"></script>			
 
 		<script src="{{asset('build/js/app.js')}}"></script>	
 		

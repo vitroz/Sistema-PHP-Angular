@@ -26,12 +26,32 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
 
-Configuração de Ambiente
+ ======== Instruções de Instalação - Primeiros passos IMPORTANTE =========
+
+Apos o git clone do projeto,
+
+-Setar o Virtual Host(Se utilizado) para a pasta public do projeto, em apache/sites-enabled/'nomedosite'.conf
+
+- Executar comando composer install
+
+- Executar comando composer update para adicionar o classloader ao projeto, e demais dependencias
+
+- Se o projeto nao tiver um arquivo .env, gerar um com o comando cp .env.example .env
+
+- Gerar key (comando php artisan key:generate)
+
+- Criar Pasta bower_componentes em /resources
+
+- sudo npm install gulp
+
+- bower install
+
+==========================================================================
+
+Configuração de Ambiente e Correcao de BUGS
 
 -Instalação do Node JS - Criação das pastas resources/js/controllers, resources/js/directives, resources/js/filters/services, resources/js/services
 
-- instalacao do npm npm -install
+- FIX ERROR ENOPCS (gulp watch-dev)
 
-- instalação do bower
-
-- instalacao do gulp
+- Para Linux, executar o comando echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p

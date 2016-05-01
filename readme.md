@@ -61,6 +61,8 @@ Configuração de Ambiente e Correcao de BUGS
 
 - ##OPCIONAL Criar um Virtual Host http://laravel-recipes.com/recipes/25/creating-an-apache-virtualhost
 
+- Trabalhar com os arquivos de front-end presentes resources. A aplicacao faz a leitura e execucao em public/build de uma copia gerada apartir de resources.
+
 -Instalação do Node JS - Criação das pastas resources/js/controllers, resources/js/directives, resources/js/filters/services, resources/js/services
 
 - FIX ERROR ENOPCS (gulp watch-dev)

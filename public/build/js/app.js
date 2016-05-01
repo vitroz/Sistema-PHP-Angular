@@ -1,8 +1,25 @@
-var app = angular.module('app',['ngRoute','angular-oauth2','app.controllers']);
+var app = angular.module('app',['ngRoute','angular-oauth2','app.controllers','app.services']);
 
 angular.module('app.controllers',['ngMessages','angular-oauth2']);
+angular.module('app.services',['ngResource']);
 
-app.config(['$routeProvider','OAuthProvider',function($routeProvider,OAuthProvider){
+app.provider('appConfig', function(){
+	var config = {
+		baseUrl: 'http://curso.dev'
+	};
+
+	return {
+		config: config,
+		$get: function(){
+			return config;
+		}
+	}
+
+});
+
+app.config([
+	'$routeProvider','OAuthProvider','OAuthTokenProvider','appConfigProvider'
+	,function($routeProvider,OAuthProvider, OAuthTokenProvider, appConfigProvider){
 	$routeProvider
 		.when('/login',{
 			templateUrl: 'build/views/login.html',
@@ -11,13 +28,24 @@ app.config(['$routeProvider','OAuthProvider',function($routeProvider,OAuthProvid
 		.when('/home',{
 			templateUrl: 'build/views/home.html',
 			controller: 'HomeController'
+		})
+		.when('/clients',{
+			templateUrl: 'build/views/client/list.html',
+			controller: 'ClientListController'
 		});
 		OAuthProvider.configure({
-			baseUrl: 'http://curso.dev',
+			baseUrl: appConfigProvider.config.baseUrl,
 			clientId: 'appid1',
 			clientSecret: 'secret',
 			grantPath: 'oauth/access_token'
 		});
+
+		OAuthTokenProvider.configure({
+			name: 'token',
+			options: {
+				secure: false
+			}
+		})
 }]);
 
 

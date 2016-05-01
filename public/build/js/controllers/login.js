@@ -6,18 +6,16 @@ angular.module('app.controllers')
 		};
 
 		$scope.error = {
-			message: '',
+ 			message: '',
 			error: false
 		};
 
 		$scope.login = function(){
-			if($scope.form.$valid){
 			OAuth.getAccessToken($scope.user).then(function(){
-				$location.path('home'); //Sucesso
-			},function(data){
+				$location.path('home'); //Sucesso, redirecionado para Home
+			},function(){
 				$scope.error.error = true;
-				$scope.error.message = data.data.error_description;
+ 				$scope.error.message = data.data.error_description;
 			});
-		  }
 		};
 	}]);

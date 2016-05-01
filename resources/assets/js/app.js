@@ -2,7 +2,23 @@ var app = angular.module('app',['ngRoute','angular-oauth2','app.controllers']);
 
 angular.module('app.controllers',['ngMessages','angular-oauth2']);
 
-app.config(['$routeProvider','OAuthProvider',function($routeProvider,OAuthProvider){
+app.provider('appConfig', function(){
+	var config = {
+		baseUrl: 'http://curso.dev'
+	};
+
+	return {
+		config: config,
+		$get: function(){
+			return config;
+		}
+	}
+
+});
+
+app.config([
+	'$routeProvider','OAuthProvider','appConfigProvider'
+	,function($routeProvider,OAuthProvider, appConfigProvider){
 	$routeProvider
 		.when('/login',{
 			templateUrl: 'build/views/login.html',
@@ -13,7 +29,7 @@ app.config(['$routeProvider','OAuthProvider',function($routeProvider,OAuthProvid
 			controller: 'HomeController'
 		});
 		OAuthProvider.configure({
-			baseUrl: 'http://curso.dev',
+			baseUrl: appConfigProvider.config.baseUrl,
 			clientId: 'appid1',
 			clientSecret: 'secret',
 			grantPath: 'oauth/access_token'
